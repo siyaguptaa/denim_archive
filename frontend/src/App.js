@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "@/App.css";
 import Lenis from "lenis";
 import { Toaster } from "sonner";
+import Preloader from "@/components/site/Preloader";
 import CustomCursor from "@/components/site/CustomCursor";
 import Nav from "@/components/site/Nav";
 import Hero from "@/components/site/Hero";
@@ -13,10 +14,13 @@ import Upload from "@/components/site/Upload";
 import CaseFile from "@/components/site/CaseFile";
 import Ooh from "@/components/site/Ooh";
 import Retail from "@/components/site/Retail";
+import ConceptSlider from "@/components/site/ConceptSlider";
 import Social from "@/components/site/Social";
 import Footer from "@/components/site/Footer";
 
 function App() {
+  const [started, setStarted] = useState(false);
+
   useEffect(() => {
     const lenis = new Lenis({ duration: 1.1, smoothWheel: true, lerp: 0.09 });
     let raf;
@@ -27,20 +31,15 @@ function App() {
 
   return (
     <div className="App" id="top">
+      <Preloader onDone={() => setStarted(true)} />
       <CustomCursor />
       <Toaster
         position="bottom-right"
-        toastOptions={{
-          style: {
-            background: "#1c1a16", color: "#ede6d8",
-            border: "1px solid #a83b32", borderRadius: 0,
-            fontFamily: "'IBM Plex Mono', monospace", fontSize: "12px",
-          },
-        }}
+        toastOptions={{ style: { background: "#1c1a16", color: "#ede6d8", border: "1px solid #a83b32", borderRadius: 0, fontFamily: "'IBM Plex Mono', monospace", fontSize: "12px" } }}
       />
       <Nav />
       <main>
-        <Hero />
+        <Hero started={started} />
         <Manifesto />
         <Insight />
         <Film />
@@ -49,6 +48,7 @@ function App() {
         <CaseFile />
         <Ooh />
         <Retail />
+        <ConceptSlider />
         <Social />
       </main>
       <Footer />

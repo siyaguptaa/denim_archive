@@ -233,3 +233,17 @@ code, .mono {
 @layer base {
     * { @apply border-border; }
 }
+
+/* ---------- preloader ---------- */
+.preloader-bar { background: rgba(168,59,50,0.18); position: relative; overflow: hidden; }
+.preloader-bar > span:first-child { position: absolute; left: 0; top: 0; bottom: 0; background: var(--rust); }
+@keyframes scanx { 0% { transform: translateX(-140%); } 100% { transform: translateX(640%); } }
+.scanx { animation: scanx 1.5s linear infinite; }
+
+/* ---------- floating jeans ---------- */
+@keyframes floaty { 0%,100% { transform: translateY(0) rotate(-2.5deg); } 50% { transform: translateY(-20px) rotate(2.5deg); } }
+.floaty { animation: floaty 8s ease-in-out infinite; }
+
+/* ---------- extra stickers ---------- */
+.pin { width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle at 34% 30%, #e0645a, #7c2820 72%); box-shadow: 1px 2px 4px rgba(0,0,0,0.55), inset -2px -2px 3px rgba(0,0,0,0.4); }
+.stamp-box { border: 2px solid var(--rust); color: var(--rust); font-family: "IBM Plex Mono", monospace; letter-spacing: 0.2em; text-transform: uppercase; background: rgba(20,24,31,0.25); }

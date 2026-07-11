@@ -1,0 +1,39 @@
+{
+  "summary": "Frontend re-test after change request: preloader + hero reveal, all 13 asset slots with correct filenames, moodboard is SECOND slide (slider-dot-1), and prior flows (archive filters/detail/flip/download, film modal unmuted with controls, upload flow, social reel, pixel cursor) all pass. No page/runtime errors.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Global", "issues": ["Benign framer-motion warning: 'container has a non-static position...' — from a useScroll target. No functional impact (carried over from iteration_1)."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: silence framer-motion useScroll warning by adding position:relative to the scroll target container."
+  ],
+  "critical_code_review_comments": [
+    "Preloader: robust — climbs to 100% then unmounts via AnimatePresence with ~650ms delay, then Hero receives started=true (counter animation gated correctly).",
+    "AssetImage: uses data-testid=asset-<filename> and gracefully falls back to labeled placeholder on onError — drop-in ready as intended.",
+    "ConceptSlider SLIDES array: index 0 websiteConcepts, index 1 MOODBOARD (correct), index 2 emailConcept. AnimatePresence mode='wait' means only the active slide's AssetImage is mounted — expected.",
+    "evidence-card-print.jpg slot only mounts after a successful upload (Upload.jsx result state) — verified by uploading a small JPG."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "test_credentials": "N/A",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "All 13 asset test-ids exist. Note that moodboard.jpg, email-concept.jpg (only in ConceptSlider, active slide), and evidence-card-print.jpg (only in Upload result) are conditionally mounted — trigger the appropriate flow to see them. Preloader takes ~2s. sort-oldest is a Radix Select item in a portal; direct playwright click after opening trigger required force=True on portalized option (minor, not blocking).",
+  "verified_flows": [
+    "Preloader appears with 'Evidence is loading' + preloader-pct climbs to 100 then disappears",
+    "Hero counter reaches '42,817 entries and counting' after preloader done",
+    "Floating archive-card slot inside hero-section (asset-archive-card.jpg) with stickers visible",
+    "All 13 asset-<filename> testids exist across the site (moodboard/email-concept via slider, evidence-card-print via upload result)",
+    "concept-slider: slider-dot-1 (index 1) renders asset-moodboard.jpg; next/prev cycle slides correctly",
+    "Archive filters (stains/tears/fades/repairs/all-evidence) all present; tile -> detail modal -> ArchiveCard flip + download PNG + close all work",
+    "Film modal opens with controls attribute and muted=false",
+    "Upload: dropzone -> input accepts JPG -> upload-loading -> upload-result -> reset back to dropzone",
+    "Social reel + social-generate-btn present; pixel cursor rendered on desktop"
+  ]
+}

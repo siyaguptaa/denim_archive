@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import Placeholder from "./Placeholder";
+import AssetImage from "./AssetImage";
+import { ASSETS } from "@/assets";
 import { downloadEvidenceCard } from "@/exportCard";
 
 // Signature Archive Card: a physical index-card you drag to flip in 3D.
@@ -60,11 +61,13 @@ export default function ArchiveCard({ data, compact = false, photoUrl }) {
             <span>THE DENIM ARCHIVE</span>
             <span className="text-[color:var(--rust)]">CLASSIFIED</span>
           </div>
-          <Placeholder file="archive-photo.jpg" dims="800x800px" kraft className="flex-1 my-4">
+          <div className="flex-1 my-4 relative overflow-hidden hairline">
             {photoUrl ? (
               <img src={photoUrl} alt="uploaded denim" className="absolute inset-0 w-full h-full object-cover" />
-            ) : null}
-          </Placeholder>
+            ) : (
+              <AssetImage asset={ASSETS.archiveCard} kraft className="absolute inset-0" />
+            )}
+          </div>
           <div className="font-mono text-lg tracking-wider2 text-[color:var(--ink)]">
             ARCHIVE ENTRY {data.number}
           </div>

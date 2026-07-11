@@ -1,57 +1,54 @@
 import { motion } from "framer-motion";
 import { INSIGHT_TILES } from "@/data";
-import Placeholder from "./Placeholder";
-
-function Tile({ label, index }) {
-  const onMove = (e) => {
-    const el = e.currentTarget;
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(800px) rotateY(${px * 10}deg) rotateX(${-py * 10}deg) translateZ(10px)`;
-  };
-  const reset = (e) => { e.currentTarget.style.transform = ""; };
-  return (
-    <motion.div
-      className="relative group hairline-light"
-      onMouseMove={onMove}
-      onMouseLeave={reset}
-      style={{ transition: "transform .2s ease", transformStyle: "preserve-3d" }}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7, delay: (index % 3) * 0.08 }}
-      data-cursor="inspect"
-      data-testid={`insight-tile-${index}`}
-    >
-      <Placeholder file={`evidence-macro-${String(index + 1).padStart(2, "0")}.jpg`} dims="1080x1350px" className="aspect-[4/5]" />
-      <div className="absolute left-0 bottom-0 right-0 p-4 flex items-center justify-between">
-        <span className="font-mono text-xs tracking-wider2 text-[color:var(--kraft)]">{label}</span>
-        <span className="font-mono text-[10px] text-[color:var(--denim-2)]">EV-{String(index + 1).padStart(3, "0")}</span>
-      </div>
-    </motion.div>
-  );
-}
+import { ASSETS } from "@/assets";
+import AssetImage from "./AssetImage";
+import { Tape, Pin, TopSecret } from "./Stickers";
 
 export default function Insight() {
   return (
     <section className="relative py-28 md:py-40 grain" style={{ background: "var(--navy-2)" }} data-testid="insight-section">
-      <div className="relative z-10 max-w-[1500px] mx-auto px-6 md:px-16">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-          <div>
-            <div className="font-mono text-[11px] tracking-label text-[color:var(--rust)] mb-4">FILE 002 — THE INSIGHT</div>
-            <h2 className="font-serif-display text-[color:var(--kraft)] text-4xl md:text-6xl leading-[1] max-w-2xl">
-              Damage is the wrong word.
-            </h2>
+      <div className="relative z-10 max-w-[1500px] mx-auto px-6 md:px-16 grid lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-24 items-center">
+        {/* LEFT — feature photo with stickers */}
+        <motion.div
+          className="relative order-2 lg:order-1"
+          initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <Pin className="absolute -top-2 left-10 z-20" />
+          <Pin className="absolute -top-2 right-10 z-20" />
+          <Tape className="absolute top-6 -right-4 z-20" rotate={6} text="EXHIBIT A" />
+          <TopSecret className="absolute -bottom-4 left-6 z-20" text="EVIDENCE 001" />
+          <div className="hairline-light p-3" style={{ background: "var(--navy)" }} data-cursor="inspect">
+            <AssetImage asset={ASSETS.featureRippedKnee} className="aspect-[4/5]" note="Macro evidence feature" />
           </div>
-          <p className="font-mono text-xs text-[color:var(--grey)] max-w-xs leading-relaxed">
-            Some marks matter more than others. Each is a fact, recorded in cotton and indigo. Hover to inspect the evidence.
+        </motion.div>
+
+        {/* RIGHT — observations list */}
+        <div className="order-1 lg:order-2">
+          <div className="font-mono text-[11px] tracking-label text-[color:var(--rust)] mb-4">FILE 002 — THE INSIGHT</div>
+          <h2 className="font-serif-display text-[color:var(--kraft)] text-4xl md:text-6xl leading-[1] mb-8 max-w-xl">
+            Damage is the wrong word.
+          </h2>
+          <p className="font-mono text-xs text-[color:var(--grey)] leading-relaxed max-w-md mb-10">
+            Some marks matter more than others. Each is a fact, recorded in cotton and indigo.
           </p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          {INSIGHT_TILES.map((label, i) => (
-            <Tile key={label} label={label} index={i} />
-          ))}
+          <ul className="divide-y" style={{ borderColor: "rgba(237,230,216,0.14)" }}>
+            {INSIGHT_TILES.map((label, i) => (
+              <motion.li
+                key={label}
+                className="flex items-center justify-between py-4 group"
+                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.06 }}
+                data-cursor="inspect"
+                data-testid={`insight-row-${i}`}
+              >
+                <span className="font-serif-display text-2xl md:text-3xl text-[color:var(--kraft)] transition-transform duration-300 group-hover:translate-x-2">
+                  {label}
+                </span>
+                <span className="font-mono text-[10px] tracking-wider2 text-[color:var(--denim-2)]">EV-{String(i + 1).padStart(3, "0")}</span>
+              </motion.li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
