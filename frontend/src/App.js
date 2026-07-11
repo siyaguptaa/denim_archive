@@ -40,11 +40,9 @@ function App() {
       <Nav />
       <main>
         <Hero started={started} />
-        <Manifesto />
         <Insight />
         <Film />
         <Archive />
-        <Upload />
         <CaseFile />
         <Ooh />
         <Retail />

@@ -23,19 +23,30 @@ export default function Film() {
           <p className="font-mono text-xs text-[color:var(--grey)] max-w-xs md:text-right">Not about denim. About a life. Runtime 02:14.</p>
         </div>
 
-        <button className="relative w-full block group" onClick={() => setOpen(true)} data-cursor="play" data-testid="film-play-block">
-          <Tape className="absolute top-6 left-6 z-20" rotate={-3} text="PRESS · PLAY · SOUND ON" />
-          <div className="relative aspect-video overflow-hidden hairline-light">
-            <AssetImage asset={ASSETS.heroBg} note="Poster frame · click to watch with sound" className="absolute inset-0" imgClassName="grayscale group-hover:grayscale-0 transition-all duration-700" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: "var(--rust)" }}>
-                <Play className="w-7 h-7 text-[color:var(--kraft)]" fill="currentColor" />
-              </span>
-            </div>
-            <div className="absolute bottom-4 left-4 font-mono text-[10px] tracking-wider2 text-[color:var(--kraft)]">▶ PLAY WITH SOUND · 02:14</div>
-          </div>
-        </button>
-      </div>
+       <div className="relative w-full">
+  <Tape
+    className="absolute top-6 left-6 z-20"
+    rotate={-3}
+    text="EVIDENCE OF LIVING"
+  />
+
+  <div className="relative aspect-video overflow-hidden hairline-light rounded-lg">
+    <video
+      className="w-full h-full object-cover"
+      autoPlay
+      muted
+      loop
+      playsInline
+      data-testid="hero-video"
+    >
+      <source
+        src={`/assets/${ASSETS.heroFilm.file}`}
+        type="video/mp4"
+      />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
 
       <AnimatePresence>
         {open && (
