@@ -1,7 +1,18 @@
+import { useRef, useState } from "react";
 import { ASSETS } from "@/assets";
 import { Tape } from "./Stickers";
 
 export default function Film() {
+  const videoRef = useRef(null);
+  const [muted, setMuted] = useState(true);
+
+  const toggleSound = () => {
+    if (!videoRef.current) return;
+
+    videoRef.current.muted = !videoRef.current.muted;
+    setMuted(videoRef.current.muted);
+  };
+
   return (
     <section
       className="relative py-28 md:py-40 grain"
@@ -34,12 +45,12 @@ export default function Film() {
 
           <div className="relative aspect-video overflow-hidden hairline-light rounded-lg">
             <video
+              ref={videoRef}
               className="w-full h-full object-cover"
               autoPlay
               muted
               loop
               playsInline
-              data-testid="hero-video"
             >
               <source
                 src={`/assets/${ASSETS.heroFilm.file}`}
@@ -47,6 +58,13 @@ export default function Film() {
               />
               Your browser does not support the video tag.
             </video>
+
+            <button
+              onClick={toggleSound}
+              className="absolute bottom-4 right-4 bg-black/70 text-white px-4 py-2 rounded-md text-sm hover:bg-black/90 transition"
+            >
+              {muted ? "🔇 Sound On" : "🔊 Sound Off"}
+            </button>
           </div>
         </div>
       </div>
